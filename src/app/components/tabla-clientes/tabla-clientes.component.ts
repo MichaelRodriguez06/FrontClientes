@@ -34,25 +34,28 @@ export class TablaClientesComponent implements OnInit, AfterViewInit {
   public loading: boolean = true;
   columsSchema = COLUMS_SCHEMA;
   clientList: Cliente[] = [];
-  dataSource = new MatTableDataSource<Cliente>(this.clientList);
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource: any;
+  displayedColumns: string[] = ['Nombre', 'Apellido', 'Celular', 'Direccion'];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  cargando: boolean = false;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private matDialog: MatDialog,
     private clientService: ClientesService
-  ) {}
+  ) {
+    this.getListClientes();
+  }
 
   getListClientes() {
+    this.cargando = true;
     this.clientService.getClientes().subscribe({
       next: (data) => {
+        this.cargando = false;
         this.clientList = data.data;
         console.log(data);
-        this.dataSource = new MatTableDataSource(data.data);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
+        this.dataSource = data;
       },
       error: (error) => {
         console.log(error);
@@ -75,11 +78,11 @@ export class TablaClientesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // @ts-ignore
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
   }
 
   ngOnInit() {
-    this.getListClientes();
+
   }
 
   createClient() {}
