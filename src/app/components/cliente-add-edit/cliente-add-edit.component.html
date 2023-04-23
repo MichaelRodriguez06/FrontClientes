@@ -1,0 +1,42 @@
+<div mat-dialog-title>
+  <h1>Formulario de registro</h1>
+</div>
+<form [formGroup]="cliForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+    <mat-form-field>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput type="text" formControlName="nombre" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input matInput type="text" formControlName="apellido" />
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Celular</mat-label>
+          <input matInput type="text" formControlName="celular"  />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Direccion</mat-label>
+          <input matInput type="text" formControlName="direccion"  />
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input matInput type="date" formControlName="fechaNacimiento"  />
+        </mat-form-field>
+      </div>
+
+
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button>Cancelar</button>
+    <button mat-raised-button color="primary">Guardar</button>
+  </div>
+
+</form>
