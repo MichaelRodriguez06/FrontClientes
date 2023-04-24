@@ -1,6 +1,7 @@
 .example-spacer {
   flex: 1 1 auto;
 }
+
 table {
   width: 100%;
 }
@@ -10,6 +11,17 @@ table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   width: 25%;
+}
+
+.main-body {
+  padding-top: 20px;
+  margin: 0 auto;
+  max-width: 1248px;
+
+  mat-form-field {
+    width: 100%;
+  }
 }

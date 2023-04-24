@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { ClienteAddEditComponent } from '../cliente-add-edit/cliente-add-edit.component';
 import { MatSort } from '@angular/material/sort';
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
 
 export interface ClienteItems {
   Id: number;
@@ -18,11 +19,11 @@ export interface ClienteItems {
 
 const COLUMS_SCHEMA = [
   { field: 'Id', header: 'Id' },
-  { field: 'nombre', header: 'Nombre' },
-  { field: 'apellido', header: 'Apellido' },
-  { field: 'celular', header: 'Celular' },
-  { field: 'direccion', header: 'Direccion' },
-  { field: 'fechaNacimiento', header: 'Fecha de nacimiento' },
+  { field: 'Nombre', header: 'Nombre' },
+  { field: 'Apellido', header: 'Apellido' },
+  { field: 'Direccion', header: 'Celular' },
+  { field: 'Fecha', header: 'Direccion' },
+  { field: 'Opciones' },
 ];
 
 @Component({
@@ -35,11 +36,17 @@ export class TablaClientesComponent implements OnInit, AfterViewInit {
   columsSchema = COLUMS_SCHEMA;
   clientList: Cliente[] = [];
   dataSource: any;
-  displayedColumns: string[] = ['Nombre', 'Apellido', 'Celular', 'Direccion'];
+  displayedColumns: string[] = [
+    'Nombre',
+    'Apellido',
+    'Celular',
+    'Direccion',
+    'Fechanacimiento',
+    'Options',
+  ];
 
   cargando: boolean = false;
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private matDialog: MatDialog,
@@ -55,6 +62,7 @@ export class TablaClientesComponent implements OnInit, AfterViewInit {
         this.cargando = false;
         this.clientList = data.data;
         console.log(data);
+
         this.dataSource = data;
       },
       error: (error) => {
@@ -73,7 +81,20 @@ export class TablaClientesComponent implements OnInit, AfterViewInit {
   }
 
   openAddEditClient() {
-    this.matDialog.open(ClienteAddEditComponent);
+    const dialogRef = this.matDialog.open(ClienteAddEditComponent);
+    dialogRef.afterClosed().subscribe({
+      next: (vale) => {
+        if (vale) {
+          this.getListClientes();
+        }
+      },
+    });
+  }
+
+  openEditForm(data: any) {
+    this.matDialog.open(ClienteAddEditComponent, {
+      data,
+    });
   }
 
   ngAfterViewInit() {
@@ -81,8 +102,19 @@ export class TablaClientesComponent implements OnInit, AfterViewInit {
     // this.dataSource.paginator = this.paginator;
   }
 
-  ngOnInit() {
+  ngOnInit() {}
 
+  deleteCliente(id: number) {
+    console.log(id);
+    this.clientService.deleteCliente(id).subscribe({
+      next: (data) => {
+        alert('Empleado borrado correctamente');
+        this.getListClientes();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   createClient() {}

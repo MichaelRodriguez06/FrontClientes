@@ -6,12 +6,10 @@ import { HttpServices } from 'src/app/core/services/http/http.service';
 import { Cliente } from 'src/app/models/cliente';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ClientesService {
-
-  constructor(private server: HttpServices<Cliente>) { }
+  constructor(private server: HttpServices<Cliente>) {}
 
   getClientes(): Observable<HttpApiResponse<Cliente[]>> {
     return this.server.getList(AppRoutes.GET_LIST_CLIENTS);
@@ -21,4 +19,11 @@ export class ClientesService {
     return this.server.post(AppRoutes.POST_CLIENT, newClient);
   }
 
+  deleteCliente(id: number) {
+    return this.server.delete(id);
+  }
+
+  putCliente(id: number, data: any) {
+    return this.server.put(id, data);
+  }
 }

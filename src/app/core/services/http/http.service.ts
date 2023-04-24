@@ -29,11 +29,8 @@ export class HttpServices<T>{
         return this.http.get<HttpApiResponse<T[]>>(`${this.url}/${path}`, { params });
     }
 
-    put(path: string, body: Object = {}): Observable<HttpApiResponse<T>> {
-        return this.http.put<HttpApiResponse<T>>(
-            `${this.url}/${path}`,
-            JSON.stringify(body)
-        );
+    put(id: number, data: any): Observable<any> {
+        return this.http.put(`https://localhost:7068/clientes/${id}`, data)
     }
 
     post(path: string, body: Object = {}, options = httpOptions): Observable<HttpApiResponse<T>> {
@@ -49,6 +46,10 @@ export class HttpServices<T>{
             `${this.url}/${path}`,
             JSON.stringify(body)
         )
+    }
+
+    delete(id: number): Observable<any> {
+        return this.http.delete(`https://localhost:7068/clientes/${id}`)
     }
 
     postFile(path: string, form: Object = {}): Observable<HttpApiResponse<T>> {

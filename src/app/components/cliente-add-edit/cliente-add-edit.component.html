@@ -36,6 +36,6 @@
   </form>
 </div>
 <div mat-dialog-actions class="action">
-  <button mat-raised-button (click)="closeDialog()" >Cancelar</button>
-  <button mat-raised-button color="primary">Guardar</button>
+  <button mat-raised-button [mat-dialog-close]="false" >Cancelar</button>
+  <button mat-raised-button (click)="onFormSubmit()" type="submit" color="primary">{{data ? 'Actualizar': 'Guardar' }}</button>
 </div>
